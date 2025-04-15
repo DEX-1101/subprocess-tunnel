@@ -3,6 +3,7 @@ import sys
 if sys.version_info < (3, 8):
     raise RuntimeError(f"Minimum python version is 3.8, you have {sys.version}")
 
+from colorama import init, Fore, Back, Style
 import logging
 import os
 import re
@@ -124,8 +125,8 @@ class Tunnel:
         self.logger.addHandler(file_handler)
 
         self.WINDOWS = True if os.name == "nt" else False
-        self.logger.info("Initializing Tunnel")
-        self.logger.info("Python version " + sys.version)
+        self.logger.info(Fore.GREEN + "Initializing Tunnel" + Style.RESET_ALL)
+        self.logger.info(Fore.GREEN + "Python version " + Style.RESET_ALL + sys.version)
 
     @classmethod
     def with_tunnel_list(
@@ -134,7 +135,7 @@ class Tunnel:
         tunnel_list: List[TunnelDict],
         check_local_port: bool = True,
         debug: bool = False,
-        timeout: int = 60,
+        timeout: int = 30,
         propagate: bool = False,
         log_handlers: ListHandlersOrBool = None,
         log_dir: StrOrPath = None,
