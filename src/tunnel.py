@@ -522,7 +522,7 @@ class Tunnel:
 
         if self.check_local_port:
             # Wait until the port is available or stop_event is set
-            log.info(f"Wait until port: {self.port} online before print URLs")
+            log.info(Fore.GREEN + f"Wait until port: {self.port} online before print URLs" + Style.RESET_ALL)
             self.wait_for_condition(
                 lambda: self.is_port_in_use(self.port) or self.stop_event.is_set(),
                 interval=1,
