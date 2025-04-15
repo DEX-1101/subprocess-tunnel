@@ -48,7 +48,7 @@ class Tunnel:
         port: int,
         check_local_port: bool = True,
         debug: bool = False,
-        timeout: int = 60,
+        timeout: int = 30,
         propagate: bool = False,
         log_handlers: ListHandlersOrBool = None,
         log_dir: StrOrPath = None,
@@ -126,7 +126,6 @@ class Tunnel:
 
         self.WINDOWS = True if os.name == "nt" else False
         self.logger.info(Fore.GREEN + "Initializing Tunnel" + Style.RESET_ALL)
-        self.logger.info(Fore.GREEN + "Python version " + Style.RESET_ALL + sys.version)
 
     @classmethod
     def with_tunnel_list(
@@ -317,7 +316,7 @@ class Tunnel:
             raise ValueError("No tunnels added")
 
         log = self.logger
-        log.info("Tunnel Started")
+        log.info(Fore.GREEN + "Tunnel Started" + Style.RESET_ALL)
 
         # Add print job
         print_job = Thread(target=self._print)
@@ -474,7 +473,7 @@ class Tunnel:
             if self.check_local_port:
                 # Wait until the port is available or stop_event is set
                 log.debug(
-                    f"Wait until port: {self.port} online before running the command for {name}"
+                    Fore.GREEN + f"Wait until port: {self.port} online before running the command for {name}" + Style.RESET_ALL
                 )
                 self.wait_for_condition(
                     lambda: self.is_port_in_use(self.port) or self.stop_event.is_set(),
@@ -519,7 +518,7 @@ class Tunnel:
         Print the tunnel URLs.
         """
         log = self.logger
-        log.info("Getting URLs")
+        log.info(Fore.GREEN + "Getting URLs" + Style.RESET_ALL)
 
         if self.check_local_port:
             # Wait until the port is available or stop_event is set
@@ -531,7 +530,7 @@ class Tunnel:
             )
             if not self.stop_event.is_set():
                 log.info(
-                    f"Port is online, waiting tunnel URLs (timeout: {self.timeout}s)"
+                    Fore.GREEN + f"Port is online, waiting tunnel URLs (timeout: {self.timeout}s)" + Style.RESET_ALL
                 )
 
         # Wait until all URLs are available or stop_event is set
@@ -540,7 +539,7 @@ class Tunnel:
             interval=1,
             timeout=self.timeout,
         ):
-            log.warning("Timeout while getting tunnel URLs, print available URLs")
+            log.warning(Fore.GREEN + "Timeout while getting tunnel URLs, print available URLs" + Style.RESET_ALL)
 
         # Print URLs
         if not self.stop_event.is_set():
